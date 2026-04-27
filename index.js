@@ -21,6 +21,12 @@ server.listen(PORT, () => {
     console.log("Server started and waiting for client request");
 
 })
+
+// handling global errors in server using application specific middleware
+server.use((err,req,res,next)=>{
+    res.status(500).json(err.message)
+})
+
 // resolve API using express
 server.get('/', (req, res) => {
     res.status(200).send(`<h1>Server started and waiting for client request</h1>`)
