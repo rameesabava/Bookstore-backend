@@ -14,6 +14,8 @@ server.use(cors())
 server.use(express.json())
 // use routes in server
 server.use(routes)
+// handling static file/folder
+server.use('/uploads',express.static('./uploads'))
 // Setup a port number to run server in internet
 const PORT = process.env.PORT
 // start server to listen client request
