@@ -9,7 +9,7 @@ exports.addBookController = async (req, res) => {
     const sellerMail = req.payload
     console.log(title, author, pages, imageURL, price, discountPrice, abstract, publisher, isbn, language, category, uploadImages, sellerMail);
     // check book existing
-    const existingBook = await books.findOne(title, sellerMail)
+    const existingBook = await books.findOne({title, sellerMail})
     // if book is already exist: send response as denied
     if (existingBook) {
         res.status(409).json("Book already exists...Operation Denied!!!")
@@ -23,6 +23,12 @@ exports.addBookController = async (req, res) => {
 }
 
 // get latest books: get 4 latest books
+exports.getHomePageBookController = async (req,res)=>{
+    console.log("Inside getHomePageBookController");
+    const homeBooks = await books.find().sort({_id:-1}).limit(4)
+    res.status(200).json(homeBooks)
+    
+}
 
 // get all user uploaded books: display all books ignoring logined user
 

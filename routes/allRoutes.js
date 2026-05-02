@@ -16,10 +16,14 @@ router.post('/login',userController.loginController)
 // google login
 router.post('/google-login',userController.googleLoginController)
 
+// home books
+router.get('/home-books',bookController.getHomePageBookController)
+
+// ----------------Authorised user - user-----------------------------------------
 // user edit
 router.put('/user/:id',authMiddleware, multerMiddleware.single('picture'), userController.userEditController)
 
 // add book
-router.post('/books',authMiddleware,multerMiddleware.array('uploadImages'),bookController.addBookController)
+router.post('/books',authMiddleware,multerMiddleware.array('uploadImages',3),bookController.addBookController)
 
 module.exports = router
