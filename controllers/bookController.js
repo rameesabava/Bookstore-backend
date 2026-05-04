@@ -30,12 +30,29 @@ exports.getHomePageBookController = async (req,res)=>{
     
 }
 
-// get all user uploaded books: display all books ignoring logined user
+// get all books apart from login user: display all books ignoring logined user
+exports.getBooksPageController = async (req,res)=>{
+    console.log("Inside getBooksPageController");
+    const loginUserMail = req.payload
+    const allBooks = await books.find({sellerMail:{$ne:loginUserMail}})
+    res.status(200).json(allBooks)
+}
 
 // get user profile books : display books uploaded by logined user
+exports.getUserBooksController = async (req,res)=>{
+    console.log("Inside getUserBooksController");
+    const loginUserMail = req.payload
+    const userUploadBooks = await books.find({sellerMail:loginUserMail})
+    res.status(200).json(userUploadBooks)
+}
 
 // get user bought books : display books bought by logined user
-
+exports.getUserBoughtBooksController = async (req,res)=>{
+    console.log("Inside getUserBoughtBooksController");
+    const loginUserMail = req.payload
+    const userBoughtBooks = await books.find({buyerMail:loginUserMail})
+    res.status(200).json(userBoughtBooks)
+}
 // remove book by a user: logined user can delete uploaded book
 
 // get single book to view
