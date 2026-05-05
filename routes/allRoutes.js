@@ -35,4 +35,10 @@ router.get('/user-books',authMiddleware,bookController.getUserBooksController)
 // get user bought books
 router.get('/bought-books',authMiddleware,bookController.getUserBoughtBooksController)
 
+// delete book
+router.delete('/books/:id',authMiddleware,bookController.removeUserUploadBooksController)
+
+// get single book to view
+router.get('/books/:id',authMiddleware,bookController.getSingleBookViewController)
+
 module.exports = router
