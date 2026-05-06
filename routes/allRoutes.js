@@ -3,6 +3,7 @@ const userController = require('../controllers/userController')
 const authMiddleware = require('../middlewares/authMiddleware')
 const multerMiddleware = require('../middlewares/multerMiddleware')
 const bookController = require('../controllers/bookController')
+const adminMiddleware = require('../middlewares/adminMiddleware')
 
 // to set up routes outside express server, create object for Router class of express
 const router = new express.Router()
@@ -40,5 +41,13 @@ router.delete('/books/:id',authMiddleware,bookController.removeUserUploadBooksCo
 
 // get single book to view
 router.get('/books/:id',authMiddleware,bookController.getSingleBookViewController)
+
+// book payment
+router.put('/books/:id/buy',authMiddleware,bookController.bookPaymentController)
+
+// -------------Authorised user - admin-------------
+
+// admin profile edit
+router.put('/profile/:id',adminMiddleware,multerMiddleware.single('picture'),userController.userEditController)
 
 module.exports = router
