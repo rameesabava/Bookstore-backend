@@ -87,3 +87,10 @@ exports.userEditController = async (req, res) => {
     },{new:true})
     res.status(200).json(updateUser)
 }
+
+// get all users
+exports.getAllUsersController = async (req, res) => {
+    console.log("Inside getAllUsersController");
+    const allUsers = await users.find({role:{$ne:"admin"}})
+    res.status(200).json(allUsers)
+}
