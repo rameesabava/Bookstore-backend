@@ -45,6 +45,9 @@ router.get('/books/:id',authMiddleware,bookController.getSingleBookViewControlle
 // book payment
 router.put('/books/:id/buy',authMiddleware,bookController.bookPaymentController)
 
+// get book details AI
+router.post('/book-ai',authMiddleware,bookController.generateBookDetailsAIController)
+
 // -------------Authorised user - admin-------------
 
 // admin profile edit

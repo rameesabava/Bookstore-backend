@@ -1,6 +1,6 @@
 const books = require('../models/bookModel')
 const stripe = require('stripe')(process.env.STRIPE_SK);
-
+const { GoogleGenerativeAI } = require('@google/generative-ai')
 
 // add book
 exports.addBookController = async (req, res) => {
@@ -83,7 +83,7 @@ exports.getAllBooksController = async (req, res) => {
 // update book status: at admin part
 exports.updateBookStatusController = async (req, res) => {
     console.log("Inside updateBookStatusController");
-     const { id } = req.params
+    const { id } = req.params
     const bookDetails = await books.findById({ _id: id })
     bookDetails.status = "approved"
     await bookDetails.save()
@@ -129,4 +129,25 @@ exports.bookPaymentController = async (req, res) => {
 
     res.status(200).json({ checkOutURL: session.url })
 
+}
+
+// get book content using gemini api
+exports.generateBookDetailsAIController = async (req,res)=>{
+    console.log("Inside generateBookDetailsAIController");
+    
+    const genAI  = new GoogleGenerativeAI(process.env.GEMINI_API)
+    const {title} = req.body
+    const model = genAI.getGenerativeModel({
+        model:"gemini-2.5-flash"
+    })
+    const result = await model.generateContent(`Give me a short abstract of the book ${title}`)
+    const reply = result.response
+    console.log(reply);
+    
+    res.status(200).json({
+        success:true,
+        user:title,
+        content:reply.candidates[0].content.parts[0].text
+    })
+    
 }
